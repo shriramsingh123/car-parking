@@ -14,4 +14,6 @@ public interface ParkingRepository {
     List<Parking> findByDepartureDateAndTime();
 
     void updateDepartureDateAndTime(int pId,LocalDate departureDate, LocalTime departureTime);
+
+    List<Parking> findByVehicleNo(String vehicleNo);
 }

@@ -13,4 +13,5 @@ public interface ParkingService {
 
     void allParkingHistoryList();
 
+    void getVehicleHistory(Scanner scanner);
 }

@@ -18,7 +18,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (true){
-            System.out.println("1.Arrive, 2.Departure, 3.Parked Vehicle List, 4.Parking History");
+            System.out.println("1.Arrive, 2.Departure, 3.Parked Vehicle List, 4.Parking History, 5.Vehicle History");
             System.out.print("Enter the choices : ");
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -34,6 +34,9 @@ public class Main {
                 }break;
                 case 4 :{
                     service.allParkingHistoryList();
+                }break;
+                case 5 :{
+                    service.getVehicleHistory(scanner);
                 }break;
                 default:{
                     System.out.println("Invalid Choice");

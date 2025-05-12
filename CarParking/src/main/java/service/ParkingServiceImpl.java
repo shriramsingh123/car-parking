@@ -9,6 +9,8 @@ import main.java.repository.ParkingRepositoryImpl;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,6 +19,7 @@ public class ParkingServiceImpl implements ParkingService{
     private final ParkingRepository repository = new ParkingRepositoryImpl();
 
 
+    @Override
     public void arrive(Scanner sc) {
 
         List<Parking> parkingList = repository.findByDepartureDateAndTime();
@@ -73,6 +76,7 @@ public class ParkingServiceImpl implements ParkingService{
 
     }
 
+    @Override
     public void departure(Scanner scanner){
         System.out.print("Enter the vehicle number : ");
         String vehicleNumber = scanner.nextLine();
@@ -92,6 +96,7 @@ public class ParkingServiceImpl implements ParkingService{
         billings.getBills(park);
     }
 
+    @Override
     public void allParkedVehicleList() {
         List<Parking> parkedVehicleList = repository.findByDepartureDateAndTime();
         if (!parkedVehicleList.isEmpty()){
@@ -103,6 +108,7 @@ public class ParkingServiceImpl implements ParkingService{
         }
     }
 
+    @Override
     public void allParkingHistoryList(){
         List<Parking>  allParkedVehicleList = repository.findAll();
         if (!allParkedVehicleList.isEmpty()){
@@ -115,7 +121,19 @@ public class ParkingServiceImpl implements ParkingService{
 
     }
 
+    @Override
+    public void getVehicleHistory(Scanner scanner) {
+        System.out.print("Enter the vehicle no : ");
+        String vehicleNo = scanner.next();
+        List<Parking> parkingList = repository.findByVehicleNo(vehicleNo);
 
+        if (!parkingList.isEmpty()){
+            parkingList.sort(Comparator.comparing(Parking::getArrivalDate));
+            parkingList.forEach(System.out::println);
+        }else {
+            System.out.println("Vehicle No : "+vehicleNo+" Never parked in our parking.");
+        }
+    }
 
 
 }

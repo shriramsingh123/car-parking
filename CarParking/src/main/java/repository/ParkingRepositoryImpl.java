@@ -130,5 +130,43 @@ public class ParkingRepositoryImpl implements ParkingRepository{
 
     }
 
+    @Override
+    public List<Parking> findByVehicleNo(String vehicleNo) {
+        if (connection !=null){
+            try {
+                String query = "SELECT * FROM parking WHERE vehicleNo = ?;";
+                PreparedStatement ps = connection.prepareStatement(query);
+                ps.setString(1,vehicleNo);
+                ResultSet resultSet = ps.executeQuery();
+                List<Parking> parkingList = new ArrayList<>();
+
+                while (resultSet.next()){
+                    parkingList.add(
+                            new Parking()
+                                    .setpId(resultSet.getInt("pId"))
+                                    .setOwnerName(resultSet.getString("ownerName"))
+                                    .setVehicleNumber(resultSet.getString("vehicleNo"))
+                                    .setParkingNo(resultSet.getInt("parkingNo"))
+                                    .setVehicleType(VehicleType.valueOf(resultSet.getString("vehicleType")))
+
+                                    .setArrivalDate(resultSet.getDate("arrivalDate").toLocalDate())
+                                    .setArrivalTime(resultSet.getTime("arrivalTime").toLocalTime())
+
+                                    .setDepartureDate(resultSet.getDate("departureDate") != null ?
+                                            resultSet.getDate("departureDate").toLocalDate() : null)
+                                    .setDepartureTime(resultSet.getTime("departureTime")!=null ?
+                                            resultSet.getTime("departureTime").toLocalTime() : null)
+                    );
+                }
+                return parkingList;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }else {
+            return null;
+        }
+    }
+
 
 }
